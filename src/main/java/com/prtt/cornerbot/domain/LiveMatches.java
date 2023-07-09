@@ -1,5 +1,6 @@
 package com.prtt.cornerbot.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
-public class LiveGames {
+public class LiveMatches {
     private Long total;
-    private List<Data> data;
+    @JsonProperty("data")
+    private List<Match> matches;
 }

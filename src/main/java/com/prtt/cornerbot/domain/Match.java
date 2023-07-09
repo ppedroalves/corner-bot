@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
-public class Data {
+public class Match {
     private Long fixtureId;
     private AwayTeam awayTeam;
     private CurrentTime currentTime;

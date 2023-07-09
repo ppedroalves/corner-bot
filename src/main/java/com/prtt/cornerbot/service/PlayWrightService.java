@@ -3,13 +3,16 @@ package com.prtt.cornerbot.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class PlayWrightService {
 
 
     public String getJson(){
+        log.info("Finding live matches at Betfair.");
         Playwright playwright = Playwright.create();
         Browser browser = playwright.firefox().launch();
         BrowserContext context = browser.newContext(
