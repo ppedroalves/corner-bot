@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prtt.cornerbot.client.TelegramApiBot;
 import com.prtt.cornerbot.domain.LiveMatches;
 import com.prtt.cornerbot.domain.Match;
+import com.prtt.cornerbot.service.MatchService;
 import com.prtt.cornerbot.utils.JsonObjectMapper;
 import com.prtt.cornerbot.service.PlayWrightService;
 import lombok.RequiredArgsConstructor;
@@ -50,13 +51,12 @@ public class FindSoccerGames {
         }
 
         StringBuilder builder = new StringBuilder();
+        builder.append("ALERTA ❗" + "\n\n");
         for (Match m : matches) {
             log.info("O jogo: " + m.getHomeTeam().getName() + " x " + m.getAwayTeam().getName() +
                     " está nos parametros de escanteio.");
 
             builder.append(buildMessageMatch(m));
-
-
         }
 
         telegramApiBot.sengMessage(builder.toString());
@@ -64,10 +64,11 @@ public class FindSoccerGames {
 
 
     private String buildMessageMatch(Match m){
-        return "ALERTA ❗"
-                + "\n\n </b>" + m.getLeague().getName() + "</b>"
-                + "\r\r\n" + m.getHomeTeam().getName() + " x " + m.getAwayTeam().getName()
-                + "\r\r\n Escanteios: " + m.getStats().getCorners().getHome() + " - " + m.getStats().getCorners().getAway()
-                + "\r\r\r";
+        return  m.getLeague().getName()
+                + "\n\n" + m.getHomeTeam().getName() + " x " + m.getAwayTeam().getName()
+                + "\n\n" + "Tempo de Jogo: " + m.getCurrentTime().getMinute() + " minutos"
+                + "\n\n" + "Escanteios: " + m.getStats().getCorners().getHome() + " - " + m.getStats().getCorners().getAway()
+                +"\n\n\n";
+
     }
 }

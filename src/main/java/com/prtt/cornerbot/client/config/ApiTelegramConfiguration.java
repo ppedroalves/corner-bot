@@ -18,7 +18,6 @@ public class ApiTelegramConfiguration implements RequestInterceptor {
     public void apply(RequestTemplate requestTemplate) {
         Map<String, Collection<String>> params = new HashMap<>();
         params.put("chat_id", Collections.singleton(chatId));
-        params.put("parse_mode", Collections.singleton("html"));
         params.put("disable_web_page_preview", Collections.singleton("True"));
         requestTemplate.queries(params);
     }

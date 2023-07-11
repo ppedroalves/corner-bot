@@ -1,4 +1,4 @@
-package com.prtt.cornerbot.schedules;
+package com.prtt.cornerbot.service;
 
 
 import com.prtt.cornerbot.domain.Match;
@@ -37,6 +37,7 @@ public class MatchService {
                     }
 
                 }
+
             }catch (Exception e){
                 log.error("Ocorreu um erro ao tentar analisar o jogo: " +  m.getHomeTeam().getName() + " x " +  m.getAwayTeam().getName());
             }
