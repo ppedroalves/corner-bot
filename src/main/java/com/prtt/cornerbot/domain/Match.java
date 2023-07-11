@@ -12,6 +12,7 @@ public class Match {
     private AwayTeam awayTeam;
     private CurrentTime currentTime;
     private HomeTeam homeTeam;
+    private League league;
     private Scores scores;
     private String status;
     private Stats stats;

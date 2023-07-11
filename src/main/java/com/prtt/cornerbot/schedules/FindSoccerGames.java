@@ -2,6 +2,7 @@ package com.prtt.cornerbot.schedules;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prtt.cornerbot.client.TelegramApiBot;
 import com.prtt.cornerbot.domain.LiveMatches;
 import com.prtt.cornerbot.domain.Match;
 import com.prtt.cornerbot.utils.JsonObjectMapper;
@@ -28,6 +29,9 @@ public class FindSoccerGames {
     @Autowired
     private MatchService matchService;
 
+    @Autowired
+    private TelegramApiBot telegramApiBot;
+
     @Scheduled(cron = "0 */10 * ? * *")
     public void filterGamesInParameters() throws JsonProcessingException {
         log.info("Starting game filtering.");
@@ -40,13 +44,30 @@ public class FindSoccerGames {
 
 
     private void printGoodMatchForCorner(List<Match> matches){
-        if(matches.size() == 0){
-            System.out.println("Nenhuma partida dentro dos parametros");
+        if(matches.isEmpty()){
+            log.info("Nenhuma partida dentro dos parametros");
+            return;
         }
 
+        StringBuilder builder = new StringBuilder();
         for (Match m : matches) {
-            System.out.println("O jogo: " + m.getHomeTeam().getName() + " x " + m.getAwayTeam().getName() +
+            log.info("O jogo: " + m.getHomeTeam().getName() + " x " + m.getAwayTeam().getName() +
                     " está nos parametros de escanteio.");
+
+            builder.append(buildMessageMatch(m));
+
+
         }
+
+        telegramApiBot.sengMessage(builder.toString());
+    }
+
+
+    private String buildMessageMatch(Match m){
+        return "ALERTA ❗"
+                + "\n\n </b>" + m.getLeague().getName() + "</b>"
+                + "\r\r\n" + m.getHomeTeam().getName() + " x " + m.getAwayTeam().getName()
+                + "\r\r\n Escanteios: " + m.getStats().getCorners().getHome() + " - " + m.getStats().getCorners().getAway()
+                + "\r\r\r";
     }
 }

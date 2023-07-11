@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
-public class Stats {
-    private DangerousAttacks dangerousAttacks;
-    private Corners corners;
+public class League {
+
+    private String name;
 }
