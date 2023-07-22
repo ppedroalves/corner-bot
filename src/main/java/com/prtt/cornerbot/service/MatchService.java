@@ -29,7 +29,6 @@ public class MatchService {
                     }
 
                 }
-
             }catch (Exception e){
                 log.error("Ocorreu um erro ao tentar analisar o jogo: " +  m.getHomeTeam().getName() + " x " +  m.getAwayTeam().getName());
             }
@@ -39,13 +38,8 @@ public class MatchService {
     }
 
     private boolean isMatchOnFilter(Scores gameScore, DangerousAttacksPerMinute appm) {
-        if(appm.getHome() >= 1.0 && gameScore.getHomeTeamScore() <= gameScore.getAwayTeamScore())
-            return true;
-
-        if(appm.getAway() >= 1.0 && gameScore.getAwayTeamScore() <= gameScore.getHomeTeamScore())
-            return true;
-
-        return false;
+        return (appm.getHome() >= 1.10 && gameScore.getHomeTeamScore() <= gameScore.getAwayTeamScore() ||
+                appm.getAway() >= 1.10 && gameScore.getAwayTeamScore() <= gameScore.getHomeTeamScore());
     }
 
 }
