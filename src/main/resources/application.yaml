@@ -1,7 +1,7 @@
 bot:
   token:
-    id: 6310359252:AAGq3jEzq7QWoZENaztM__wWaTnpDPxE5wg
+    id: ${BOT_TOKEN_ID}
 
 
 chat:
-  id: -1001981337516
+  id:  ${ID_CHAT}
