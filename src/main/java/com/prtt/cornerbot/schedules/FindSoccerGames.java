@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -35,9 +36,8 @@ public class FindSoccerGames {
 
     @Scheduled(cron = "0 */10 * ? * *")
     public void filterGamesInParameters() throws JsonProcessingException {
-        log.info("Starting game filtering.");
-        String html = playWrightService.getJson();
-        LiveMatches response = JsonObjectMapper.mapperLiveGames(html, objectMapper);
+        log.info("Starting game filtering at " + LocalDateTime.now());
+        LiveMatches response = JsonObjectMapper.mapperLiveGames(playWrightService.getJson(), objectMapper);
         printGoodMatchForCorner(matchService.filterGoodMatchesForCorners(response.getMatches()));
 
     }
@@ -66,9 +66,15 @@ public class FindSoccerGames {
     private String buildMessageMatch(Match m){
         return  m.getLeague().getName()
                 + "\n\n" + m.getHomeTeam().getName() + " x " + m.getAwayTeam().getName()
-                + "\n\n" + "Tempo de Jogo: " + m.getCurrentTime().getMinute() + " minutos"
+                + "\n\n" + m.getCurrentTime().getMinute() + " minutos de jogo"
                 + "\n\n" + "Escanteios: " + m.getStats().getCorners().getHome() + " - " + m.getStats().getCorners().getAway()
+                + "\n\n" + buildTipText(m.getStats().getCorners().getHome() + m.getStats().getCorners().getAway())
                 +"\n\n\n";
 
+    }
+
+    private String buildTipText(Long totalCorners){
+        return "+" + (totalCorners + 1L) + " CANTOS ASIATICOS || "
+                + totalCorners + ".5 CANTOS ASIATICOS";
     }
 }
