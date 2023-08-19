@@ -11,6 +11,6 @@ public interface TelegramApiBot {
 
 
     @PostMapping(path = "/sendMessage")
-    void sengMessage(@RequestParam("text") String text);
+    void sendMessage(@RequestParam("text") String text);
 
 }
