@@ -37,6 +37,7 @@ public class FindSoccerGames {
     @Scheduled(cron = "0 */10 * ? * *")
     public void filterGamesInParameters() throws JsonProcessingException {
         log.info("Starting game filtering at " + LocalDateTime.now());
+        String htmlPlaywright = playWrightService.getJson();
         LiveMatches response = JsonObjectMapper.mapperLiveGames(playWrightService.getJson(), objectMapper);
         printGoodMatchForCorner(matchService.filterGoodMatchesForCorners(response.getMatches()));
 
@@ -59,7 +60,7 @@ public class FindSoccerGames {
             builder.append(buildMessageMatch(m));
         }
 
-        telegramApiBot.sengMessage(builder.toString());
+        telegramApiBot.sendMessage(builder.toString());
     }
 
 
@@ -74,7 +75,7 @@ public class FindSoccerGames {
     }
 
     private String buildTipText(Long totalCorners){
-        return "+" + (totalCorners + 1L) + " CANTOS ASIATICOS || "
+        return "+" + (totalCorners + 1L) + " CANTOS ASIATICOS || +"
                 + totalCorners + ".5 CANTOS ASIATICOS";
     }
 }
