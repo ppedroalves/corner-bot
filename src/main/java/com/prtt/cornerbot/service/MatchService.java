@@ -22,13 +22,8 @@ public class MatchService {
         List<Match> filteredMatches = new ArrayList<>();
         for (Match m: matches) {
             try{
-                if(Objects.equals(m.getStatus(), "LIVE")){
-                    if((m.getCurrentTime().getMinute() > 30  && m.getCurrentTime().getMinute() < 40) ||
-                            (m.getCurrentTime().getMinute() > 75  && m.getCurrentTime().getMinute() <  85)){
-                        if(isMatchOnFilter(m))
-                            filteredMatches.add(m);
-                    }
-
+                if(isMatchOnFilter(m)){
+                    filteredMatches.add(m);
                 }
             }catch (Exception e){
                 log.error("Ocorreu um erro ao tentar analisar o jogo: " +  m.getHomeTeam().getName() + " x " +  m.getAwayTeam().getName());
@@ -38,14 +33,26 @@ public class MatchService {
         return filteredMatches;
     }
 
-    public boolean isMatchOnFilter(Match match) {
-        Predicate<Match> isDifferenceOne = m -> Math.abs(m.getScores().getHomeTeamScore() - m.getScores().getAwayTeamScore()) == 1;
-        Predicate<Match> isAvgAppmHigh = m -> (m.getPressureStats().getAppm1().getAway() + m.getPressureStats().getAppm1().getHome()) / 2 > 1.05;
 
-        return Stream.of(isDifferenceOne, isAvgAppmHigh)
-                .allMatch(filter -> filter.test(match));
+
+    private boolean isMatchOnFilter(Match match) {
+
+        return (Objects.equals(match.getStatus(), "LIVE"))  &&  isMatchOnMinute(match.getCurrentTime().getMinute())
+                && isMatchOnAppmHigh(match);
+
     }
 
+    private boolean isMatchOnMinute(Long minute){
+       return (minute > 30  &&  minute < 40) ||
+                (minute > 75  && minute <  90);
+    }
+
+    private boolean isMatchOnAppmHigh(Match match){
+        return (match.getPressureStats().getAppm1().getHome() >= 1.05 &&
+                Math.abs(match.getScores().getAwayTeamScore() - match.getScores().getHomeTeamScore()) <= 1) ||
+                (match.getPressureStats().getAppm1().getAway() >= 1.05 &&
+                        Math.abs(match.getScores().getHomeTeamScore() - match.getScores().getAwayTeamScore()) <= 1);
+    }
 
 
 }
