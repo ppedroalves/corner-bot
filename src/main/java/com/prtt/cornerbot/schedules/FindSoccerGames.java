@@ -37,7 +37,6 @@ public class FindSoccerGames {
     @Scheduled(cron = "0 */10 * ? * *")
     public void filterGamesInParameters() throws JsonProcessingException {
         log.info("Starting game filtering at " + LocalDateTime.now());
-        String htmlPlaywright = playWrightService.getJson();
         LiveMatches response = JsonObjectMapper.mapperLiveGames(playWrightService.getJson(), objectMapper);
         printGoodMatchForCorner(matchService.filterGoodMatchesForCorners(response.getMatches()));
 
