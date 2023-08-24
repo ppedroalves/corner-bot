@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -23,9 +25,8 @@ public class MatchService {
                 if(Objects.equals(m.getStatus(), "LIVE")){
                     if((m.getCurrentTime().getMinute() > 30  && m.getCurrentTime().getMinute() < 40) ||
                             (m.getCurrentTime().getMinute() > 75  && m.getCurrentTime().getMinute() <  85)){
-                        if(isMatchOnFilter(m.getScores(), m.getPressureStats().getAppm1())){
+                        if(isMatchOnFilter(m))
                             filteredMatches.add(m);
-                        }
                     }
 
                 }
@@ -37,9 +38,14 @@ public class MatchService {
         return filteredMatches;
     }
 
-    private boolean isMatchOnFilter(Scores gameScore, DangerousAttacksPerMinute appm) {
-        return (appm.getHome() >= 1.10 && gameScore.getHomeTeamScore() <= gameScore.getAwayTeamScore() ||
-                appm.getAway() >= 1.10 && gameScore.getAwayTeamScore() <= gameScore.getHomeTeamScore());
+    public boolean isMatchOnFilter(Match match) {
+        Predicate<Match> isDifferenceOne = m -> Math.abs(m.getScores().getHomeTeamScore() - m.getScores().getAwayTeamScore()) == 1;
+        Predicate<Match> isAvgAppmHigh = m -> (m.getPressureStats().getAppm1().getAway() + m.getPressureStats().getAppm1().getHome()) / 2 > 1.05;
+
+        return Stream.of(isDifferenceOne, isAvgAppmHigh)
+                .allMatch(filter -> filter.test(match));
     }
+
+
 
 }
