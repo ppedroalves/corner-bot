@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM mcr.microsoft.com/playwright/java:v1.30.0-focal
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN bash -c 'touch /app.jar'
