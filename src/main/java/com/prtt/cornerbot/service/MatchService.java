@@ -49,9 +49,9 @@ public class MatchService {
 
     private boolean isMatchOnAppmHigh(Match match){
         return (match.getPressureStats().getAppm1().getHome() >= 1.05 &&
-                Math.abs(match.getScores().getAwayTeamScore() - match.getScores().getHomeTeamScore()) < 2) ||
+                match.getScores().getHomeTeamScore() - match.getScores().getAwayTeamScore() <= 0 ) ||
                 (match.getPressureStats().getAppm1().getAway() >= 1.05 &&
-                        Math.abs(match.getScores().getHomeTeamScore() - match.getScores().getAwayTeamScore()) < 2);
+                        match.getScores().getAwayTeamScore() - match.getScores().getHomeTeamScore() <= 0);
     }
 
 
