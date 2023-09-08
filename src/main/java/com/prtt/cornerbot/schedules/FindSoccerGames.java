@@ -76,8 +76,14 @@ public class FindSoccerGames {
                 + "\n\n" + m.getCurrentTime().getMinute() + " minutos de jogo"
                 + "\n\n" + "Escanteios: " + m.getStats().getCorners().getHome() + " - " + m.getStats().getCorners().getAway()
                 + "\n\n" + buildTipText(m.getStats().getCorners().getHome() + m.getStats().getCorners().getAway())
+                + "\n\n" + buildBet365Link(m.getHomeTeam().getName())
                 +"\n\n\n";
 
+    }
+
+    private String buildBet365Link(String name) {
+        String[] formattName = name.split(" ");
+        return "https://www.bet365.com/?nr=1#/AX/K%5E" + formattName[0];
     }
 
     private String buildTipText(Long totalCorners){
