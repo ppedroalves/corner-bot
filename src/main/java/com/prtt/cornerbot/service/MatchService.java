@@ -38,7 +38,7 @@ public class MatchService {
     private boolean isMatchOnFilter(Match match) {
 
         return (Objects.equals(match.getStatus(), "LIVE"))  &&  isMatchOnMinute(match.getCurrentTime().getMinute())
-                && isMatchOnAppmHigh(match);
+                && isMatchOnAppmHigh(match) && isMatchHaveGoalChances(match);
 
     }
 
@@ -54,5 +54,13 @@ public class MatchService {
                         match.getScores().getAwayTeamScore() - match.getScores().getHomeTeamScore() <= 0);
     }
 
+    private boolean isMatchHaveGoalChances(Match m){
+        Long totalShots = m.getStats().getShotsOffgoal().getHome() + m.getStats().getShotsOffgoal().getAway();
+        if(m.getCurrentTime().getMinute() <= 45){
+            return (totalShots > 7);
+        }else{
+            return (totalShots >= 15);
+        }
+    }
 
 }

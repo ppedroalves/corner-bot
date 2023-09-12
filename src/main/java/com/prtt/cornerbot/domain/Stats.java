@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class Stats {
     private DangerousAttacks dangerousAttacks;
     private Corners corners;
+    private GoalChances shotsOffgoal;
 }
