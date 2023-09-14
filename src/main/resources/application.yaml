@@ -5,3 +5,10 @@ bot:
 
 chat:
   id:  ${ID_CHAT}
+
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
