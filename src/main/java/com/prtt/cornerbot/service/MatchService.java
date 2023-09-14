@@ -1,29 +1,31 @@
 package com.prtt.cornerbot.service;
 
 
-import com.prtt.cornerbot.domain.DangerousAttacksPerMinute;
 import com.prtt.cornerbot.domain.Match;
-import com.prtt.cornerbot.domain.Scores;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MatchService {
+
+    private final MatchCacheService matchCacheService;
 
     public List<Match> filterGoodMatchesForCorners(List<Match> matches){
         log.info("Total de jogos recebeidos para análise: " + matches.size());
         List<Match> filteredMatches = new ArrayList<>();
         for (Match m: matches) {
             try{
-                if(isMatchOnFilter(m)){
+                String cacheId = buildCacheId(m);
+                if(!matchCacheService.isMatchInCache(cacheId) && isMatchOnFilter(m)){
                     filteredMatches.add(m);
+                    matchCacheService.addToCache(cacheId);
                 }
             }catch (Exception e){
                 log.error("Ocorreu um erro ao tentar analisar o jogo: " +  m.getHomeTeam().getName() + " x " +  m.getAwayTeam().getName());
@@ -33,7 +35,9 @@ public class MatchService {
         return filteredMatches;
     }
 
-
+    private String buildCacheId(Match m) {
+        return m.getFixtureId().toString() + ((m.getCurrentTime().getMinute() <= 45) ? "HT" : "FT");
+    }
 
     private boolean isMatchOnFilter(Match match) {
 

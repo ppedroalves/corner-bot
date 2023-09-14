@@ -10,5 +10,5 @@ chat:
 spring:
   data:
     redis:
-      host: localhost
+      host: redis-hml
       port: 6379

@@ -1,57 +1,22 @@
-package com.prtt.cornerbot.schedules;
+package com.prtt.cornerbot.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.prtt.cornerbot.client.TelegramApiBot;
-import com.prtt.cornerbot.domain.LiveMatches;
 import com.prtt.cornerbot.domain.Match;
-import com.prtt.cornerbot.service.MatchService;
-import com.prtt.cornerbot.utils.JsonObjectMapper;
-import com.prtt.cornerbot.service.PlayWrightService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FindSoccerGames {
+public class TelegramApiService {
 
-    @Autowired
-    private PlayWrightService playWrightService;
+    private final TelegramApiBot telegramApiBot;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private MatchService matchService;
-
-    @Autowired
-    private TelegramApiBot telegramApiBot;
-
-    @Scheduled(cron = "0 */10 * ? * *")
-    public void filterGamesInParameters() throws JsonProcessingException {
-        log.info("Starting game filtering at " + LocalDateTime.now());
-        LiveMatches response = mapJsonToLiveMatches(playWrightService.getJson());
-        List<Match> matches =  filterMatches(response.getMatches());
-        printGoodMatchForCorner(matches);
-
-    }
-
-    public LiveMatches mapJsonToLiveMatches(String json) throws JsonProcessingException {
-        return JsonObjectMapper.mapperLiveGames(json, objectMapper);
-    }
-
-    public List<Match> filterMatches(List<Match> matches) {
-        return matchService.filterGoodMatchesForCorners(matches);
-    }
-
-    private void printGoodMatchForCorner(List<Match> matches){
+    public void printGoodMatchForCorner(List<Match> matches){
         if(matches.isEmpty()){
             log.info("Nenhuma partida dentro dos parametros");
             return;
@@ -67,8 +32,8 @@ public class FindSoccerGames {
         }
 
         telegramApiBot.sendMessage(builder.toString());
-    }
 
+    }
 
     private String buildMessageMatch(Match m){
         return  m.getLeague().getName()
@@ -90,4 +55,6 @@ public class FindSoccerGames {
         return "+" + (totalCorners + 1L) + " CANTOS ASIATICOS || +"
                 + totalCorners + ".5 CANTOS ASIATICOS";
     }
+
+
 }
