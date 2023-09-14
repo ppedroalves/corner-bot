@@ -1,0 +1,14 @@
+bot:
+  token:
+    id: ${BOT_TOKEN_ID}
+
+
+chat:
+  id:  ${ID_CHAT}
+
+
+spring:
+  data:
+    redis:
+      host: redis-hml
+      port: 6379
