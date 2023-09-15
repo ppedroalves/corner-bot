@@ -23,7 +23,7 @@ public class MatchService {
         for (Match m: matches) {
             try{
                 String cacheId = buildCacheId(m);
-                if(!matchCacheService.isMatchInCache(cacheId) && isMatchOnFilter(m)){
+                if(isMatchOnFilter(m) && !matchCacheService.isMatchInCache(cacheId)){
                     filteredMatches.add(m);
                     matchCacheService.addToCache(cacheId);
                 }
@@ -47,8 +47,8 @@ public class MatchService {
     }
 
     private boolean isMatchOnMinute(Long minute){
-       return (minute > 30  &&  minute < 40) ||
-                (minute > 75  && minute <  90);
+       return (minute >= 28  &&  minute < 40) ||
+                (minute > 75 && minute < 90);
     }
 
     private boolean isMatchOnAppmHigh(Match match){
