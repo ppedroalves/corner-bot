@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CacheSchedule {
 
-    private MatchRepository matchRepository;
+    private final MatchRepository matchRepository;
 
     @Scheduled(cron = "0 0 2 * * ?")
     public void cleanupCache() {
