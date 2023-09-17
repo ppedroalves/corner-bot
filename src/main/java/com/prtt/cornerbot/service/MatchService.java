@@ -1,7 +1,7 @@
 package com.prtt.cornerbot.service;
 
 
-import com.prtt.cornerbot.domain.Match;
+import com.prtt.cornerbot.domain.match.Match;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -52,19 +52,22 @@ public class MatchService {
     }
 
     private boolean isMatchOnAppmHigh(Match match){
+
         return (match.getPressureStats().getAppm1().getHome() >= 1.0 &&
-                match.getScores().getHomeTeamScore() - match.getScores().getAwayTeamScore() <= 0 ) ||
+                match.getScores().getHomeTeamScore() - match.getScores().getAwayTeamScore() <= 0) ||
                 (match.getPressureStats().getAppm1().getAway() >= 1.0 &&
                         match.getScores().getAwayTeamScore() - match.getScores().getHomeTeamScore() <= 0);
     }
 
     private boolean isMatchHaveGoalChances(Match m){
-        Long totalShots = m.getStats().getShotsOffgoal().getHome() + m.getStats().getShotsOffgoal().getAway();
-        if(m.getCurrentTime().getMinute() <= 45){
-            return (totalShots > 7);
-        }else{
-            return (totalShots >= 15);
-        }
+        Long homeShots =  m.getStats().getShotsOffgoal().getHome() + m.getStats().getShotsOngoal().getHome();
+        Long awayShots =  m.getStats().getShotsOffgoal().getAway() + m.getStats().getShotsOngoal().getAway();
+        Long totalShots = homeShots + awayShots;
+
+        Long differencePossetionTime = Math.abs(m.getStats().getPossessionTime().getAway() - m.getStats().getPossessionTime().getHome());
+
+        return (differencePossetionTime >= 20) &&  (m.getCurrentTime().getMinute() <= 45) ? (totalShots >= 7) : (totalShots >= 15);
+
     }
 
 }
