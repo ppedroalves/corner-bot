@@ -2,8 +2,8 @@ package com.prtt.cornerbot.schedules;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prtt.cornerbot.domain.LiveMatches;
-import com.prtt.cornerbot.domain.Match;
+import com.prtt.cornerbot.domain.match.LiveMatches;
+import com.prtt.cornerbot.domain.match.Match;
 import com.prtt.cornerbot.service.MatchService;
 import com.prtt.cornerbot.service.TelegramApiService;
 import com.prtt.cornerbot.utils.JsonObjectMapper;
