@@ -1,4 +1,4 @@
-package com.prtt.cornerbot.domain;
+package com.prtt.cornerbot.domain.match;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

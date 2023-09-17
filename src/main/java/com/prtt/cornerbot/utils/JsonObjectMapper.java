@@ -2,7 +2,7 @@ package com.prtt.cornerbot.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prtt.cornerbot.domain.LiveMatches;
+import com.prtt.cornerbot.domain.match.LiveMatches;
 
 public class JsonObjectMapper {
 

@@ -2,7 +2,7 @@ package com.prtt.cornerbot.service;
 
 
 import com.prtt.cornerbot.client.TelegramApiBot;
-import com.prtt.cornerbot.domain.Match;
+import com.prtt.cornerbot.domain.match.Match;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

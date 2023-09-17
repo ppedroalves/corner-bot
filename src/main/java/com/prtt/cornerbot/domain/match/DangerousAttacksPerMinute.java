@@ -1,4 +1,4 @@
-package com.prtt.cornerbot.domain;
+package com.prtt.cornerbot.domain.match;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
-public class Corners {
-    private Long home;
-    private Long away;
+public class DangerousAttacksPerMinute {
+    private Double home;
+    private Double away;
 }

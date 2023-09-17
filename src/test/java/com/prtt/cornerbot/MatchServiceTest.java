@@ -1,13 +1,6 @@
 package com.prtt.cornerbot;
 
-import com.prtt.cornerbot.domain.DangerousAttacksPerMinute;
-import com.prtt.cornerbot.domain.Match;
-import com.prtt.cornerbot.domain.PressureStats;
-import com.prtt.cornerbot.domain.Scores;
-import com.prtt.cornerbot.service.MatchService;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

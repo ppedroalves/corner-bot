@@ -1,4 +1,4 @@
-package com.prtt.cornerbot.domain;
+package com.prtt.cornerbot.domain.match;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
