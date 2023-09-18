@@ -66,7 +66,10 @@ public class MatchService {
 
         Long differencePossetionTime = Math.abs(m.getStats().getPossessionTime().getAway() - m.getStats().getPossessionTime().getHome());
 
-        return (differencePossetionTime >= 20) &&  (m.getCurrentTime().getMinute() <= 45) ? (totalShots >= 7) : (totalShots >= 15);
+        boolean isFirstHalf = m.getCurrentTime().getMinute() <= 45;
+        boolean hasEnoughGoalChances = (isFirstHalf && totalShots > 7) || (!isFirstHalf && totalShots >= 15);
+
+        return (differencePossetionTime >= 20)  &&  hasEnoughGoalChances;
 
     }
 
