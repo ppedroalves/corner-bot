@@ -64,7 +64,9 @@ public class MatchService {
         Long awayShots =  m.getStats().getShotsOffgoal().getAway() + m.getStats().getShotsOngoal().getAway();
         Long totalShots = homeShots + awayShots;
 
-        Long differencePossetionTime = Math.abs(m.getStats().getPossessionTime().getAway() - m.getStats().getPossessionTime().getHome());
+        Long differencePossetionTime = 20L;
+        if(m.getStats().getPossessionTime().getHome() != null && m.getStats().getPossessionTime().getAway() != null)
+           differencePossetionTime = Math.abs(m.getStats().getPossessionTime().getAway() - m.getStats().getPossessionTime().getHome());
 
         boolean isFirstHalf = m.getCurrentTime().getMinute() <= 45;
         boolean hasEnoughGoalChances = (isFirstHalf && totalShots > 7) || (!isFirstHalf && totalShots >= 15);
